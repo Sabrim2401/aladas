@@ -1,51 +1,39 @@
 package ar.com.ada.api.aladas.entities;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table (name = "vuelo")
+@Table(name = "vuelo")
 public class Vuelo {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    @Column (name = "vuelo_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "vuelo_id")
     private Integer vueloId;
 
     private Date fecha;
 
-    @Column (name = "estado_vuelo_id")
+    @Column(name = "estado_vuelo_id")
     private Integer estadoVueloId;
 
     private Integer capacidad;
 
-    @Column (name = "aeropuerto_origen")
+    @Column(name = "aeropuerto_origen")
     private Integer aeropuertoOrigen;
 
-    @Column (name = "aeropuerto_destino")
+    @Column(name = "aeropuerto_destino")
     private Integer aeropuertoDestino;
 
     private BigDecimal precio;
 
-    @Column (name = "codigo_moneda")
-    private String codigoMoneda;
-
-
+    @Column(name = "codigo_moneda")
+    private String codigoMoneda; // codigos ISO: ARS , USD
 
     @OneToMany(mappedBy = "vuelo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Reserva> reservas = new ArrayList <>();
+    private List<Reserva> reservas = new ArrayList<>();
 
     public Integer getVueloId() {
         return vueloId;
@@ -126,8 +114,9 @@ public class Vuelo {
 
     public enum EstadoVueloEnum {
         GENERADO(1), ORIGEN_ASIGNADO(2), DESTINO_ASIGNADO(3), TRIPULACION_PREASIGNADA(4), ABIERTO(5), CONFIRMADO(6),
-        REPROGRAMADO(7), CANCELADO(8), CERRADO(9); // NO HAY MAS ESTADOS PORQUE ESTE SISTEMA ESTA ENFOCADO AL
-                                                   // SISTEMA DE RESERVA, NO AL TRAFICO AEREO 
+        REPROGRAMADO(7), CANCELADO(8), CERRADO(9); // NO AGREGAMOS MAS ESTADOS PORQUE ESTE SISTEMA ESTA ENFOCADO AL
+                                                   // SISTEMA DE RESERVA, NO AL TRAFICO AEREO (NO ES NECESARIO PARA LA
+                                                   // VISION QUE ESTAMOS ARMANDO)
 
         private final Integer value;
 
@@ -151,6 +140,5 @@ public class Vuelo {
             return status;
         }
     }
-
 
 }

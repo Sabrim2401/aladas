@@ -3,15 +3,15 @@ package ar.com.ada.api.aladas.entities;
 import javax.persistence.*;
 
 @Entity
-@Table (name = "staff")
+@Table(name = "staff")
 public class Staff extends Persona {
-    
+
     @Id
-    @Column (name = "staff_id")
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "staff_id")
     private Integer staffId;
 
-    @OneToOne (mappedBy = "staff", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "staff", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Usuario usuario;
 
     public Integer getStaffId() {
@@ -30,7 +30,5 @@ public class Staff extends Persona {
         this.usuario = usuario;
         usuario.setStaff(this);
     }
-
-    
 
 }

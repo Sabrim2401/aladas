@@ -9,19 +9,18 @@ import ar.com.ada.api.aladas.entities.Pais.TipoDocuEnum;
 
 @MappedSuperclass
 public abstract class Persona {
-    
+
     private String nombre;
 
-    @Column (name = "tipo_documento_id")
+    @Column(name = "tipo_documento_id")
     private Integer tipoDocumentoId;
-
     private String documento;
 
-    @Column (name = "fecha_nacimiento")
-    @Temporal (TemporalType.DATE)
+    @Temporal(TemporalType.DATE)
+    @Column(name = "fecha_nacimiento")
     private Date fechaNacimiento;
 
-    @Column (name = "pais_id")
+    @Column(name = "pais_id")
     private Integer paisId;
 
     public String getNombre() {
@@ -64,5 +63,5 @@ public abstract class Persona {
         this.paisId = paisId.getValue();
     }
 
-    
+
 }

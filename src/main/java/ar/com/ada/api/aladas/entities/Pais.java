@@ -27,7 +27,7 @@ public class Pais {
         }
     }
 
-    
+
     public enum TipoDocuEnum {
         DNI(1), PASAPORTE(2);
 

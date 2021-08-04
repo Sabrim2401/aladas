@@ -1,16 +1,16 @@
 package ar.com.ada.api.aladas.entities;
 
-import java.util.*;
-
 import javax.persistence.*;
+
+import java.util.*;
 
 @Entity
 @Table(name = "reserva")
 public class Reserva {
 
     @Id
-    @Column(name = "reserva_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "reserva_id")
     private Integer reservaId;
 
     @ManyToOne
@@ -22,7 +22,7 @@ public class Reserva {
     private Pasajero pasajero;
 
     @OneToOne(mappedBy = "reserva", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Pasaje pasaje;
+    private Pasaje pasaje; // en linea 24: nombre del atributo que hace referencia a la tabla.
 
     @Column(name = "estado_reserva_id")
     private Integer estadoReservaId;
@@ -85,16 +85,21 @@ public class Reserva {
         return pasaje;
     }
 
-    public void setPasaje(Pasaje pasaje) { //Relacion bidireccion a traves el
-     this.pasaje = pasaje; 
-     pasaje.setReserva(this);
-    }
-     
+    /*
+     * public void setPasaje(Pasaje pasaje) { //Relacion bidireccion a traves el
+     * setter(asociar) this.pasaje = pasaje; pasaje.setReserva(this); }
+     */
 
+    /* Version alternativa en vez de setter */
+    public void asociarPasaje(Pasaje pasaje) { // Relacion bidireccion a traves el setter(asociar)
+        this.pasaje = pasaje;
+        pasaje.setReserva(this);
+    }
 
     public enum EstadoReservaEnum {
 
-        CREADA(1), TRANSMITIENDO_AL_PG(2), ERROR_AL_CONECTAR_PG(3), PENDIENTE_DE_PAGO(4), PAGADA(5), CANCELADO_POR_USUARIO(6), CANCELADO_POR_EMPRESA(7), PAGO_RECHAZADO(8), EXPIRADO(9), EMITIDA(10);        
+        CREADA(1), TRANSMITIENDO_AL_PG(2), ERROR_AL_CONECTAR_PG(3), PENDIENTE_DE_PAGO(4), PAGADA(5),
+        CANCELADO_POR_USUARIO(6), CANCELADO_POR_EMPRESA(7), PAGO_RECHAZADO(8), EXPIRADO(9), EMITIDA(10);
 
         private final Integer value;
 

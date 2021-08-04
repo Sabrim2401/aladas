@@ -1,26 +1,24 @@
 package ar.com.ada.api.aladas.entities;
 
-import java.util.Date;
-
 import javax.persistence.*;
+import java.util.*;
 
 @Entity
-@Table (name = "pasaje")
+@Table(name = "pasaje")
 public class Pasaje {
-    
     @Id
     @Column(name = "pasaje_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer pasajeId;
 
     @OneToOne
-    @JoinColumn (name = "reserva_id", referencedColumnName = "reserva_id")
+    @JoinColumn(name = "reserva_id", referencedColumnName = "reserva_id")
     private Reserva reserva;
 
-    @Column (name = "fecha_emision")
+    @Column(name = "fecha_emision")
     private Date fechaEmision;
 
-    @Column (name = "info_pago")
+    @Column(name = "info_pago")
     private String infoPago;
 
     public Integer getPasajeId() {
@@ -54,7 +52,4 @@ public class Pasaje {
     public void setInfoPago(String infoPago) {
         this.infoPago = infoPago;
     }
-
-    
-
 }
