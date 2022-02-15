@@ -14,6 +14,7 @@ public abstract class Persona {
 
     @Column(name = "tipo_documento_id")
     private Integer tipoDocumentoId;
+    
     private String documento;
 
     @Temporal(TemporalType.DATE)
