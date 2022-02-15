@@ -54,4 +54,12 @@ public class ReservaService {
         return repo.findByReservaId(id);
     }
 
+    public boolean validarReservaExiste(Integer id) {
+        Reserva reserva = repo.findByReservaId(id);
+        if (reserva != null) {
+            return true;
+        } else
+            return false;
+    }
+    
 }
