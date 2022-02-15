@@ -1,6 +1,7 @@
 package ar.com.ada.api.aladas.services;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -86,6 +87,10 @@ public class PasajeService {
             return false;
         } else
             return true;
+    }
+
+    public List<Pasaje> obtenerTodos() {
+        return repo.findAll();
     }
 
 }

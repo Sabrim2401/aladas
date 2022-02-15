@@ -9,8 +9,12 @@ import ar.com.ada.api.aladas.models.response.PasajeResponse;
 import ar.com.ada.api.aladas.services.PasajeService;
 import ar.com.ada.api.aladas.services.PasajeService.ValidacionPasajeDataEnum;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -48,6 +52,22 @@ public class PasajeController {
 
             return ResponseEntity.badRequest().body(rta);
         }
+    }
+
+    @GetMapping("/api/pasajes")
+    public ResponseEntity<List<Pasaje>> traerPasajes() {
+        return ResponseEntity.ok(service.obtenerTodos());
+    }
+
+    @GetMapping("api/pasajes/{id}")
+    public ResponseEntity<?> traerPasajePorId(@PathVariable Integer id) {
+        GenericResponse respuesta = new GenericResponse();
+        if (!service.validarPasajeExiste(id)) {
+            respuesta.isOk = false;
+            respuesta.message = "El número de Id ingresado no es correcto.";
+            return ResponseEntity.badRequest().body(respuesta);
+        }
+        return ResponseEntity.ok(service.buscarPorId(id));
     }
 
 }
