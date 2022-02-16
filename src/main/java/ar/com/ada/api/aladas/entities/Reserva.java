@@ -22,7 +22,7 @@ public class Reserva {
     private Pasajero pasajero;
 
     @OneToOne(mappedBy = "reserva", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Pasaje pasaje; // en linea 24: nombre del atributo que hace referencia a la tabla.
+    private Pasaje pasaje; 
 
     @Column(name = "estado_reserva_id")
     private Integer estadoReservaId;
@@ -71,6 +71,14 @@ public class Reserva {
 
     public void setFechaVencimiento(Date fechaVencimiento) {
         this.fechaVencimiento = fechaVencimiento;
+    }
+
+    public void setPasaje(Pasaje pasaje) {
+        this.pasaje = pasaje;
+    }
+
+    public void setEstadoReservaId(Integer estadoReservaId) {
+        this.estadoReservaId = estadoReservaId;
     }
 
     public EstadoReservaEnum getEstadoReservaId() {

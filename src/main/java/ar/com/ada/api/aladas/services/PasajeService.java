@@ -93,4 +93,28 @@ public class PasajeService {
         return repo.findAll();
     }
 
+    public void eliminarPasajePorId(Integer id) {
+        repo.deleteById(id);
+    }
+
+    public Pasaje modificarPasaje(Integer id, Integer reservaId) {
+        Pasaje pasaje = buscarPorId(id);
+        pasaje.setFechaEmision(new Date());
+
+        Reserva reserva = resService.buscarPorId(reservaId);
+        reserva.setEstadoReservaId(EstadoReservaEnum.EMITIDA);
+        reserva.setPasaje(pasaje);
+        Integer nuevaCapacidad = reserva.getVuelo().getCapacidad() - 1;
+
+        if (validadCapacidadDisponible(reserva.getVuelo().getCapacidad())) {
+            reserva.getVuelo().setCapacidad(nuevaCapacidad);
+
+        } else {
+            reserva.getVuelo().setCapacidad(null);
+        }
+
+        vueloService.actualizar(reserva.getVuelo());
+        return repo.save(pasaje);
+    }
+
 }

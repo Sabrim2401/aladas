@@ -13,9 +13,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
@@ -68,6 +70,54 @@ public class PasajeController {
             return ResponseEntity.badRequest().body(respuesta);
         }
         return ResponseEntity.ok(service.buscarPorId(id));
+    }
+
+    @PutMapping("/api/pasajes/{id}")
+    public ResponseEntity<?> modificar(@PathVariable Integer id, @RequestBody InfoPasajeNuevo infoNueva) {
+
+        PasajeResponse respuesta = new PasajeResponse();
+
+        ValidacionPasajeDataEnum resultado = service.validar(infoNueva.reservaId);
+
+        if (resultado == ValidacionPasajeDataEnum.OK) {
+
+            Pasaje pasaje = service.modificarPasaje(id, infoNueva.reservaId);
+            
+                respuesta.pasajeId = pasaje.getPasajeId();
+                respuesta.fechaDeEmision = pasaje.getFechaEmision();
+                respuesta.reservaId = pasaje.getReserva().getReservaId();
+                respuesta.vueloId = pasaje.getReserva().getVuelo().getVueloId();
+                respuesta.infoDePago = "PAGADO";
+                respuesta.message = "El pasaje ha sido modificado correctamente.";
+
+                return ResponseEntity.ok(respuesta);
+            
+        }else {
+            GenericResponse rta = new GenericResponse();
+            rta.isOk = false;
+            rta.message = "Error(" + resultado.toString() + ")";
+
+            return ResponseEntity.badRequest().body(rta);
+        }
+    }
+
+    @DeleteMapping("/api/pasajes/{id}")
+    public ResponseEntity<GenericResponse> eliminar(@PathVariable Integer id) {
+
+        GenericResponse respuesta = new GenericResponse();
+        if (!service.validarPasajeExiste(id)) {
+            service.eliminarPasajePorId(id);
+            respuesta.isOk = true;
+            respuesta.message = "El aeropuerto ha sido eliminado correctamente.";
+            return ResponseEntity.ok(respuesta);
+
+        } else {
+            respuesta.isOk = false;
+            respuesta.message = "El número de Id ingresado no es correcto.";
+            return ResponseEntity.badRequest().body(respuesta);
+
+        }
+
     }
 
 }
